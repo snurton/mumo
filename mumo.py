@@ -533,7 +533,7 @@ if __name__ == '__main__':
         if option.force_app:
             raise ImportError # Pretend that we couldn't import the daemon lib
         import daemon
-        import daemon.pidlockfile
+        import lockfile.pidlockfile import PIDLockFile
     except ImportError:
         if option.force_daemon:
             print >> sys.stderr, 'Fatal error, could not daemonize process due to missing "daemon" library, ' \
@@ -541,7 +541,7 @@ if __name__ == '__main__':
             sys.exit(1)
         ret = do_main_program()
     else:
-        pidfile = daemon.pidlockfile.TimeoutPIDLockFile(cfg.system.pidfile, 5)
+        pidfile = PIDLockFile(cfg.system.pidfile, 5)
         if pidfile.is_locked():
             try:
                 os.kill(pidfile.read_pid(), 0)
